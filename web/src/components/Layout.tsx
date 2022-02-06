@@ -12,6 +12,7 @@ import {
 } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import NewNotebookButton from "./Sidebar/NewNotebookButton";
 
 const user = {
   name: "Emily Selman",

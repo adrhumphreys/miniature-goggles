@@ -14,8 +14,8 @@ const Group: FC = ({ children }) => (
 
 const Buttons: FC<Props> = ({ editor }) =>
   editor && (
-    <div className="flex justify-between">
-      <div className="flex space-x-2">
+    <div className="flex flex-wrap items-center justify-between">
+      <div className="mr-2 mb-2 flex space-x-2 overflow-y-auto">
         <Group>
           <Button
             editor={editor}
@@ -64,7 +64,7 @@ const Buttons: FC<Props> = ({ editor }) =>
           </Button>
         </Group>
       </div>
-      <div className="flex space-x-1">
+      <div className="flex space-x-2">
         <DeleteButton />
         <button className="flex items-center rounded bg-indigo-600 py-1 px-2 text-white">
           <SaveIcon className="mr-2 h-5 w-5" />

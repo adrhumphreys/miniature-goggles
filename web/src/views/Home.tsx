@@ -1,10 +1,13 @@
+import Layout from "@components/Layout";
+import ListOfNotes from "@components/ListOfNotes";
+import TwoColumn from "@components/TwoColumn";
 import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <p className="text-xl">
-      home <Link to="/abc">404</Link>
-    </p>
+    <div className="p-2">
+      <Link to="/notebooks/1">Notebook 1</Link>
+    </div>
   );
 };
 

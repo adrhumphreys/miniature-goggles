@@ -6,15 +6,15 @@ type Props = {
 
 const TwoColumn: FC<Props> = ({ children, secondary }) => {
   return (
-    <>
-      <section className="relative flex h-full w-96 shrink-0 flex-col overflow-y-auto border-r border-gray-200 bg-white">
+    <div className="flex h-full">
+      <section className="relative flex h-full w-full shrink-0 flex-col overflow-y-auto border-r border-gray-200 bg-white lg:w-96">
         {children}
       </section>
 
       <section className="hidden overflow-y-auto lg:block lg:w-full">
         <div className="h-full w-full">{secondary}</div>
       </section>
-    </>
+    </div>
   );
 };
 

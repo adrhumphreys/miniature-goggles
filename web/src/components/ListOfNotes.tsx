@@ -3,12 +3,11 @@ import classNames from "classnames";
 import Search from "./Search";
 import { Link, useParams } from "react-router-dom";
 import useFuse from "@utils/useFuse";
+import timeAgo from "@utils/timeAgo";
 
 type Message = {
   id: number;
-  subject: string;
-  sender: string;
-  time: string;
+  title: string;
   datetime: string;
   preview: string;
 };
@@ -16,27 +15,21 @@ type Message = {
 const messages: Message[] = [
   {
     id: 1,
-    subject: "One item in the list",
-    sender: "Gloria Roberston",
-    time: "1d ago",
-    datetime: "2021-01-27T16:35",
+    title: "Hello world",
+    datetime: "2022-02-06T16:35",
     preview:
       "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere. Enim rerum eaque qui facilis. Numquam laudantium sed id dolores omnis in. Eos reiciendis deserunt maiores et accusamus quod dolor.",
   },
   {
     id: 2,
-    subject: "Two item in the list",
-    sender: "Gloria Roberston",
-    time: "1d ago",
-    datetime: "2021-01-27T16:35",
+    title: "Gloria Roberston",
+    datetime: "2022-02-05T16:35",
     preview:
       "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere. Enim rerum eaque qui facilis. Numquam laudantium sed id dolores omnis in. Eos reiciendis deserunt maiores et accusamus quod dolor.",
   },
   {
     id: 3,
-    subject: "Three item in",
-    sender: "Gloria Roberston",
-    time: "1d ago",
+    title: "Gloria Roberston",
     datetime: "2021-01-27T16:35",
     preview:
       "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere. Enim rerum eaque qui facilis. Numquam laudantium sed id dolores omnis in. Eos reiciendis deserunt maiores et accusamus quod dolor.",
@@ -56,7 +49,7 @@ const NotePreview = ({
   <li
     key={message.id}
     className={classNames(
-      "relative border py-5 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-gray-50",
+      "relative py-5 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-gray-50",
       {
         "bg-gray-50": isSelected,
         "bg-white": !isSelected,
@@ -71,16 +64,15 @@ const NotePreview = ({
         >
           <span className="absolute inset-0" aria-hidden="true" />
           <p className="truncate text-sm font-medium text-gray-900">
-            {message.sender}
+            {message.title}
           </p>
-          <p className="truncate text-sm text-gray-500">{message.subject}</p>
         </Link>
       </div>
       <time
         dateTime={message.datetime}
         className="flex-shrink-0 whitespace-nowrap text-sm text-gray-500"
       >
-        {message.time}
+        {timeAgo(message.datetime)}
       </time>
     </div>
     <div className="mt-1">
@@ -95,11 +87,11 @@ const ListOfNotes: FC = () => {
   const selectedId = parseInt(noteId ?? "0");
 
   const { result, onSearch, term, reset } = useFuse(messages, {
-    keys: ["subject"],
+    keys: ["preview"],
   });
 
   return (
-    <div>
+    <div className="h-full">
       <div className="p-3">
         <Search value={term} onSearch={onSearch} />
       </div>

@@ -2,6 +2,7 @@ import express from "express";
 import { graphqlHTTP } from "express-graphql";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 import { readFileSync } from "fs";
+import cors from "cors";
 
 import { context } from "./context";
 import { resolvers } from "./resolver";
@@ -14,6 +15,13 @@ const schema = makeExecutableSchema({
 
 const app = express();
 const port = 3001;
+
+app.use(cors());
+
+// Make it slower for testing
+// app.use(function (req, res, next) {
+//   setTimeout(next, 1000);
+// });
 
 app.use(
   "/graphql",

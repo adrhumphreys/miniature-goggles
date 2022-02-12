@@ -1,6 +1,7 @@
 import { Editor } from "@components";
 import ListOfNotes from "@components/ListOfNotes";
 import TwoColumn from "@components/TwoColumn";
+import { useQuery } from "urql";
 
 const Notebook = () => {
   return (

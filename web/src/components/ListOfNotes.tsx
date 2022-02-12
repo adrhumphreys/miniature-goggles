@@ -4,50 +4,19 @@ import Search from "./Search";
 import { Link, useParams } from "react-router-dom";
 import useFuse from "@utils/useFuse";
 import timeAgo from "@utils/timeAgo";
-
-type Message = {
-  id: number;
-  title: string;
-  datetime: string;
-  preview: string;
-};
-
-const messages: Message[] = [
-  {
-    id: 1,
-    title: "Hello world",
-    datetime: "2022-02-06T16:35",
-    preview:
-      "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere. Enim rerum eaque qui facilis. Numquam laudantium sed id dolores omnis in. Eos reiciendis deserunt maiores et accusamus quod dolor.",
-  },
-  {
-    id: 2,
-    title: "Gloria Roberston",
-    datetime: "2022-02-05T16:35",
-    preview:
-      "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere. Enim rerum eaque qui facilis. Numquam laudantium sed id dolores omnis in. Eos reiciendis deserunt maiores et accusamus quod dolor.",
-  },
-  {
-    id: 3,
-    title: "Gloria Roberston",
-    datetime: "2021-01-27T16:35",
-    preview:
-      "Doloremque dolorem maiores assumenda dolorem facilis. Velit vel in a rerum natus facere. Enim rerum eaque qui facilis. Numquam laudantium sed id dolores omnis in. Eos reiciendis deserunt maiores et accusamus quod dolor.",
-  },
-  // More messages...
-];
+import { Note, useGetNotebookQuery } from "generated-types";
 
 const NotePreview = ({
-  message,
+  note,
   isSelected,
   notebookId,
 }: {
-  message: Message;
+  note: any;
   isSelected: boolean;
   notebookId: string;
 }) => (
   <li
-    key={message.id}
+    key={note.id}
     className={classNames(
       "relative py-5 px-4 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 hover:bg-gray-50",
       {
@@ -59,35 +28,43 @@ const NotePreview = ({
     <div className="flex justify-between space-x-3">
       <div className="min-w-0 flex-1">
         <Link
-          to={`/notebooks/${notebookId}/${message.id}`}
+          to={`/notebooks/${notebookId}/${note.id}`}
           className="block focus:outline-none"
         >
           <span className="absolute inset-0" aria-hidden="true" />
           <p className="truncate text-sm font-medium text-gray-900">
-            {message.title}
+            {note.title}
           </p>
         </Link>
       </div>
-      <time
-        dateTime={message.datetime}
-        className="flex-shrink-0 whitespace-nowrap text-sm text-gray-500"
-      >
-        {timeAgo(message.datetime)}
-      </time>
+      {note.updatedAt ? (
+        <time
+          dateTime={note.updatedAt}
+          className="flex-shrink-0 whitespace-nowrap text-sm text-gray-500"
+        >
+          {timeAgo({ date: note.updatedAt, isUnix: true })}
+        </time>
+      ) : null}
     </div>
     <div className="mt-1">
-      <p className="line-clamp-2 text-sm text-gray-600">{message.preview}</p>
+      <p className="line-clamp-2 text-sm text-gray-600">Preview?</p>
     </div>
   </li>
 );
 
 const ListOfNotes: FC = () => {
-  const { noteId, notebookId } =
+  const { noteId: selectedId, notebookId = "" } =
     useParams<{ noteId: string; notebookId: string }>();
-  const selectedId = parseInt(noteId ?? "0");
+  const [queryResult] = useGetNotebookQuery({ variables: { id: notebookId } });
 
-  const { result, onSearch, term, reset } = useFuse(messages, {
-    keys: ["preview"],
+  const notes = queryResult.data?.notebook?.notes;
+
+  if (!notes) {
+    return <p>No notes bro</p>;
+  }
+
+  const { result, onSearch, term, reset } = useFuse(notes, {
+    keys: ["title"],
   });
 
   return (
@@ -97,20 +74,20 @@ const ListOfNotes: FC = () => {
       </div>
       <ul role="list" className="divide-y divide-gray-200">
         {term
-          ? result.map(({ item: message }) => (
+          ? result.map(({ item: note }) => (
               <NotePreview
-                key={message.id}
+                key={note.id}
                 notebookId={notebookId ?? ""}
-                message={message}
-                isSelected={selectedId === message.id}
+                note={note}
+                isSelected={selectedId === note.id}
               />
             ))
-          : messages.map((message) => (
+          : notes.map((note) => (
               <NotePreview
-                key={message.id}
+                key={note.id}
                 notebookId={notebookId ?? ""}
-                message={message}
-                isSelected={selectedId === message.id}
+                note={note}
+                isSelected={selectedId === note.id}
               />
             ))}
       </ul>

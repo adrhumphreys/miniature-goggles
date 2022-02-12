@@ -1,0 +1,53 @@
+interface Node {
+  id: ID!
+}
+
+type User implements Node {
+  id: ID!
+  email: String
+  name: String
+  notebooks: [Notebook!]
+}
+
+type Notebook implements Node {
+  id: ID!
+  title: String
+  createdAt: String
+  updatedAt: String
+  author: User!
+  notes: [Note!]
+}
+
+type Note implements Node {
+  id: ID!
+  createdAt: String
+  updatedAt: String
+  title: String
+  content: String
+  notebook: Notebook!
+}
+
+type Query {
+  users: [User]
+  user(id: ID!): User
+  notebooks(authorId: ID!): [Notebook]
+  notebook(id: ID!): Notebook
+  notes(notebookId: ID!): [Note]
+  note(id: ID!): Note
+  node(id: ID!): Node
+}
+
+type Mutation {
+  addUser(name: String!, email: String!): User
+  addNotebook(authorId: String!, title: String!): Notebook
+  updateNotebook(id: ID!, title: String!): Notebook
+  removeNotebook(id: ID!): Boolean
+  addNote(notebookId: String!, title: String!, content: String!): Note
+  updateNote(
+    id: ID!
+    notebookId: String!
+    title: String!
+    content: String!
+  ): Note
+  removeNote(id: ID!): Boolean
+}

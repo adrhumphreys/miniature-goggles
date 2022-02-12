@@ -1,0 +1,14 @@
+query getNotebook($id: ID!) {
+  notebook(id: $id) {
+    id
+    title
+    createdAt
+    updatedAt
+    notes {
+      id
+      title
+      createdAt
+      updatedAt
+    }
+  }
+}

@@ -1,0 +1,15 @@
+schema: ../schema.graphql
+documents: "src/**/*.graphql"
+
+generates:
+  ./src/generated-types.tsx:
+    config:
+      withHooks: true
+      avoidOptionals:
+        field: true
+        inputValue: false
+        object: true
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-urql

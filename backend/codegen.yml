@@ -1,0 +1,14 @@
+schema: src/schema.graphql
+generates:
+  src/resolvers-types.ts:
+    config:
+      useIndexSignature: true
+      contextType: ./context#Context
+      mapperTypeSuffix: Model
+      mappers:
+        User: "@prisma/client/index.d#User"
+        Notebook: "@prisma/client/index.d#Notebook"
+        Note: "@prisma/client/index.d#Note"
+    plugins:
+      - typescript
+      - typescript-resolvers

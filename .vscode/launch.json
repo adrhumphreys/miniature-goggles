@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch via ts node dev",
+      "type": "node",
+      "request": "launch",
+      "protocol": "inspector",
+      "cwd": "${workspaceRoot}",
+      "runtimeExecutable": "${workspaceRoot}/backend/node_modules/.bin/ts-node-dev",
+      "args": ["${workspaceRoot}backend/src/index.ts"],
+      "restart": true
+    }
+  ]
+}

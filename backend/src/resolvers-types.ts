@@ -29,8 +29,8 @@ export type Mutation = {
 
 
 export type MutationAddNoteArgs = {
-  content: Scalars['String'];
-  notebookId: Scalars['String'];
+  content?: InputMaybe<Scalars['String']>;
+  notebookId: Scalars['ID'];
   title: Scalars['String'];
 };
 
@@ -79,17 +79,17 @@ export type Note = Node & {
   content?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  notebook?: Maybe<Notebook>;
+  notebook: Notebook;
   title?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['String']>;
 };
 
 export type Notebook = Node & {
   __typename?: 'Notebook';
-  author?: Maybe<User>;
+  author: User;
   createdAt?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
-  notes?: Maybe<Array<Maybe<Note>>>;
+  notes?: Maybe<Array<Note>>;
   title?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['String']>;
 };
@@ -140,7 +140,7 @@ export type User = Node & {
   email?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
-  notebooks?: Maybe<Array<Maybe<Notebook>>>;
+  notebooks?: Maybe<Array<Notebook>>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -238,7 +238,7 @@ export type ResolversParentTypes = ResolversObject<{
 }>;
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  addNote?: Resolver<Maybe<ResolversTypes['Note']>, ParentType, ContextType, RequireFields<MutationAddNoteArgs, 'content' | 'notebookId' | 'title'>>;
+  addNote?: Resolver<Maybe<ResolversTypes['Note']>, ParentType, ContextType, RequireFields<MutationAddNoteArgs, 'notebookId' | 'title'>>;
   addNotebook?: Resolver<Maybe<ResolversTypes['Notebook']>, ParentType, ContextType, RequireFields<MutationAddNotebookArgs, 'authorId' | 'title'>>;
   addUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationAddUserArgs, 'email' | 'name'>>;
   removeNote?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationRemoveNoteArgs, 'id'>>;
@@ -256,17 +256,17 @@ export type NoteResolvers<ContextType = Context, ParentType extends ResolversPar
   content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  notebook?: Resolver<Maybe<ResolversTypes['Notebook']>, ParentType, ContextType>;
+  notebook?: Resolver<ResolversTypes['Notebook'], ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type NotebookResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Notebook'] = ResolversParentTypes['Notebook']> = ResolversObject<{
-  author?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  author?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  notes?: Resolver<Maybe<Array<Maybe<ResolversTypes['Note']>>>, ParentType, ContextType>;
+  notes?: Resolver<Maybe<Array<ResolversTypes['Note']>>, ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -286,7 +286,7 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
   email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  notebooks?: Resolver<Maybe<Array<Maybe<ResolversTypes['Notebook']>>>, ParentType, ContextType>;
+  notebooks?: Resolver<Maybe<Array<ResolversTypes['Notebook']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

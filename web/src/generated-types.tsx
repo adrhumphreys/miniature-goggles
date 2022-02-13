@@ -28,8 +28,8 @@ export type Mutation = {
 
 
 export type MutationAddNoteArgs = {
-  content: Scalars['String'];
-  notebookId: Scalars['String'];
+  content: InputMaybe<Scalars['String']>;
+  notebookId: Scalars['ID'];
   title: Scalars['String'];
 };
 
@@ -142,6 +142,21 @@ export type User = Node & {
   notebooks: Maybe<Array<Notebook>>;
 };
 
+export type AddNoteMutationVariables = Exact<{
+  notebookId: Scalars['ID'];
+  title: Scalars['String'];
+}>;
+
+
+export type AddNoteMutation = { __typename?: 'Mutation', addNote: { __typename?: 'Note', id: string, title: string | null, createdAt: string | null, updatedAt: string | null, content: string | null } | null };
+
+export type GetNoteQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetNoteQuery = { __typename?: 'Query', note: { __typename?: 'Note', id: string, title: string | null, content: string | null, createdAt: string | null, updatedAt: string | null, notebook: { __typename?: 'Notebook', id: string } } | null };
+
 export type GetNotebookQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -162,6 +177,39 @@ export type AllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 export type AllUsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'User', id: string, name: string | null, email: string | null } | null> | null };
 
 
+export const AddNoteDocument = gql`
+    mutation addNote($notebookId: ID!, $title: String!) {
+  addNote(notebookId: $notebookId, title: $title) {
+    id
+    title
+    createdAt
+    updatedAt
+    content
+  }
+}
+    `;
+
+export function useAddNoteMutation() {
+  return Urql.useMutation<AddNoteMutation, AddNoteMutationVariables>(AddNoteDocument);
+};
+export const GetNoteDocument = gql`
+    query getNote($id: ID!) {
+  note(id: $id) {
+    id
+    title
+    content
+    createdAt
+    updatedAt
+    notebook {
+      id
+    }
+  }
+}
+    `;
+
+export function useGetNoteQuery(options: Omit<Urql.UseQueryArgs<GetNoteQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetNoteQuery>({ query: GetNoteDocument, ...options });
+};
 export const GetNotebookDocument = gql`
     query getNotebook($id: ID!) {
   notebook(id: $id) {

@@ -4,7 +4,8 @@ import Search from "./Search";
 import { Link, useParams } from "react-router-dom";
 import useFuse from "@utils/useFuse";
 import timeAgo from "@utils/timeAgo";
-import { Note, useGetNotebookQuery } from "generated-types";
+import { Note, useAddNoteMutation, useGetNotebookQuery } from "generated-types";
+import { PlusIcon } from "@heroicons/react/outline";
 
 const NotePreview = ({
   note,
@@ -67,29 +68,42 @@ const ListOfNotes: FC = () => {
     keys: ["title"],
   });
 
+  const [, addNoteMut] = useAddNoteMutation();
+  const addNote = () => addNoteMut({ notebookId, title: "" });
+
   return (
     <div className="h-full">
-      <div className="p-3">
+      <div className="flex space-x-2 border-b border-gray-200 p-3">
         <Search value={term} onSearch={onSearch} />
+        <button
+          onClick={addNote}
+          className="rounded bg-indigo-600 px-3 text-white"
+        >
+          <PlusIcon className="h-5 w-5" />
+        </button>
       </div>
       <ul role="list" className="divide-y divide-gray-200">
         {term
-          ? result.map(({ item: note }) => (
-              <NotePreview
-                key={note.id}
-                notebookId={notebookId ?? ""}
-                note={note}
-                isSelected={selectedId === note.id}
-              />
-            ))
-          : notes.map((note) => (
-              <NotePreview
-                key={note.id}
-                notebookId={notebookId ?? ""}
-                note={note}
-                isSelected={selectedId === note.id}
-              />
-            ))}
+          ? result
+              .sort((a, b) => b.item.updatedAt - a.item.updatedAt)
+              .map(({ item: note }) => (
+                <NotePreview
+                  key={note.id}
+                  notebookId={notebookId ?? ""}
+                  note={note}
+                  isSelected={selectedId === note.id}
+                />
+              ))
+          : notes
+              .sort((a, b) => b.updatedAt - a.updatedAt)
+              .map((note) => (
+                <NotePreview
+                  key={note.id}
+                  notebookId={notebookId ?? ""}
+                  note={note}
+                  isSelected={selectedId === note.id}
+                />
+              ))}
       </ul>
     </div>
   );

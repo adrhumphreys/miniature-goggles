@@ -42,7 +42,7 @@ type Mutation {
   addNotebook(authorId: String!, title: String!): Notebook
   updateNotebook(id: ID!, title: String!): Notebook
   removeNotebook(id: ID!): Boolean
-  addNote(notebookId: String!, title: String!, content: String!): Note
+  addNote(notebookId: ID!, title: String!, content: String): Note
   updateNote(
     id: ID!
     notebookId: String!

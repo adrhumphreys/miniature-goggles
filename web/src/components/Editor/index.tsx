@@ -1,22 +1,13 @@
-import { useParams } from "react-router-dom";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import Buttons from "./Buttons";
 
-const createContent = ({
-  notebookId,
-  noteId,
-}: {
-  notebookId: string | undefined;
-  noteId: string | undefined;
-}) => {
-  return `<h1>Hello World!</h1><p>Notebook: ${notebookId}</p>
-    <p>Note: ${noteId}</p><ul><li><p>A list</p></li><li><p>of </p></li><li><p>sorts</p></li></ul>`;
+type Props = {
+  content: String;
 };
 
-const Editor = () => {
-  const { notebookId, noteId } = useParams();
+const Editor: FC<Props> = ({ content }) => {
   const editor = useEditor({
     extensions: [StarterKit],
     editorProps: {
@@ -25,12 +16,12 @@ const Editor = () => {
           "prose prose-sm prose-stone h-full w-full focus:outline-none max-w-full",
       },
     },
-    content: createContent({ notebookId, noteId }),
+    content,
   });
 
   useEffect(() => {
-    editor?.commands.setContent(createContent({ notebookId, noteId }));
-  }, [noteId]);
+    editor?.commands.setContent(content);
+  }, [content]);
 
   return (
     <div className="m-5 flex h-full flex-col space-y-5">

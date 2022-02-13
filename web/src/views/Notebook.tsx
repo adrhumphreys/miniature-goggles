@@ -1,11 +1,17 @@
-import { Editor } from "@components";
+import EditNote from "@components/EditNote";
 import ListOfNotes from "@components/ListOfNotes";
 import TwoColumn from "@components/TwoColumn";
-import { useQuery } from "urql";
+import { Suspense } from "react";
 
 const Notebook = () => {
   return (
-    <TwoColumn secondary={<Editor />}>
+    <TwoColumn
+      secondary={
+        <Suspense fallback={<p>Loading</p>}>
+          <EditNote />
+        </Suspense>
+      }
+    >
       <ListOfNotes />
     </TwoColumn>
   );

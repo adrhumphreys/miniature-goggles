@@ -11,14 +11,14 @@ const Search: FC<Props> = ({ onSearch, value }) => {
   useHotkeys("ctrl+k, cmd+k", () => inputRef?.current?.focus());
 
   return (
-    <div>
+    <div className="w-full">
       <label
         htmlFor="search"
         className="sr-only block text-sm font-medium text-gray-700"
       >
         Quick search
       </label>
-      <div className="relative mt-1 flex items-center">
+      <div className="relative flex items-center">
         <input
           ref={inputRef}
           type="text"

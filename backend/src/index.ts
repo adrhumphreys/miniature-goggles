@@ -20,7 +20,7 @@ app.use(cors());
 
 // Make it slower for testing
 // app.use(function (req, res, next) {
-//   setTimeout(next, 1000);
+// setTimeout(next, 1000);
 // });
 
 app.use(

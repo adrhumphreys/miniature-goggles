@@ -64,13 +64,6 @@ const Buttons: FC<Props> = ({ editor }) =>
           </Button>
         </Group>
       </div>
-      <div className="flex space-x-2">
-        <DeleteButton />
-        <button className="flex items-center rounded bg-indigo-600 py-1 px-2 text-white">
-          <SaveIcon className="mr-2 h-5 w-5" />
-          Save
-        </button>
-      </div>
     </div>
   );
 

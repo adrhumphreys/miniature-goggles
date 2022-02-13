@@ -6,7 +6,7 @@ type User implements Node {
   id: ID!
   email: String
   name: String
-  notebooks: [Notebook]
+  notebooks: [Notebook!]
 }
 
 type Notebook implements Node {
@@ -14,8 +14,8 @@ type Notebook implements Node {
   title: String
   createdAt: String
   updatedAt: String
-  author: User
-  notes: [Note]
+  author: User!
+  notes: [Note!]
 }
 
 type Note implements Node {
@@ -24,7 +24,7 @@ type Note implements Node {
   updatedAt: String
   title: String
   content: String
-  notebook: Notebook
+  notebook: Notebook!
 }
 
 type Query {
@@ -42,7 +42,7 @@ type Mutation {
   addNotebook(authorId: String!, title: String!): Notebook
   updateNotebook(id: ID!, title: String!): Notebook
   removeNotebook(id: ID!): Boolean
-  addNote(notebookId: String!, title: String!, content: String!): Note
+  addNote(notebookId: ID!, title: String!, content: String): Note
   updateNote(
     id: ID!
     notebookId: String!

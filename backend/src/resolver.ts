@@ -1,4 +1,4 @@
-import { Resolvers } from "./resolvers-types";
+import { Resolvers, Notebook } from "./resolvers-types";
 
 export const resolvers: Resolvers = {
   Query: {
@@ -34,7 +34,9 @@ export const resolvers: Resolvers = {
   },
   Note: {
     notebook: ({ notebookId }, _a, context) =>
-      context.prisma.notebook.findUnique({ where: { id: notebookId } }),
+      context.prisma.notebook.findUnique({
+        where: { id: notebookId },
+      }),
   },
   Mutation: {
     addUser: (_p, { name, email }, context) =>
@@ -51,7 +53,9 @@ export const resolvers: Resolvers = {
     removeNotebook: (_p, { id }, context) =>
       Boolean(context.prisma.notebook.delete({ where: { id } })),
     addNote: (_p, { notebookId, title, content }, context) =>
-      context.prisma.note.create({ data: { notebookId, title, content } }),
+      context.prisma.note.create({
+        data: { notebookId, title, content: content ?? "" },
+      }),
     updateNote: (_p, { id, notebookId, title, content }, context) =>
       context.prisma.note.update({
         where: { id },

@@ -13,7 +13,7 @@ const Button: FC<Props> = ({ editor, children, onClick, activeId }) => (
     onClick={onClick}
     className={classNames(
       "py-1 px-2 first-of-type:rounded-l last-of-type:rounded-r",
-      editor?.isActive(activeId ?? "") ? "bg-gray-200" : "bg-gray-50"
+      editor?.isActive(activeId ?? "") ? "bg-indigo-600 text-white" : "bg-white"
     )}
   >
     {children}

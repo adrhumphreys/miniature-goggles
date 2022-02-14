@@ -60,7 +60,7 @@ export type MutationRemoveNotebookArgs = {
 export type MutationUpdateNoteArgs = {
   content: Scalars['String'];
   id: Scalars['ID'];
-  notebookId: Scalars['String'];
+  notebookId: Scalars['ID'];
   title: Scalars['String'];
 };
 
@@ -76,11 +76,11 @@ export type Node = {
 
 export type Note = Node & {
   __typename?: 'Note';
-  content?: Maybe<Scalars['String']>;
+  content: Scalars['String'];
   createdAt?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   notebook: Notebook;
-  title?: Maybe<Scalars['String']>;
+  title: Scalars['String'];
   updatedAt?: Maybe<Scalars['String']>;
 };
 
@@ -253,11 +253,11 @@ export type NodeResolvers<ContextType = Context, ParentType extends ResolversPar
 }>;
 
 export type NoteResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Note'] = ResolversParentTypes['Note']> = ResolversObject<{
-  content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   notebook?: Resolver<ResolversTypes['Notebook'], ParentType, ContextType>;
-  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

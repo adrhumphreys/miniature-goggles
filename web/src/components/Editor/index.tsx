@@ -4,10 +4,11 @@ import { FC, useEffect } from "react";
 import Buttons from "./Buttons";
 
 type Props = {
-  content: String;
+  content: string;
+  setContent: Function;
 };
 
-const Editor: FC<Props> = ({ content }) => {
+const Editor: FC<Props> = ({ content, setContent }) => {
   const editor = useEditor({
     extensions: [StarterKit],
     editorProps: {
@@ -17,6 +18,9 @@ const Editor: FC<Props> = ({ content }) => {
       },
     },
     content,
+    onUpdate: ({ editor }) => {
+      setContent(editor.getJSON());
+    },
   });
 
   useEffect(() => {
@@ -24,9 +28,12 @@ const Editor: FC<Props> = ({ content }) => {
   }, [content]);
 
   return (
-    <div className="m-5 flex h-full flex-col space-y-5">
+    <div className="m-5 flex h-full flex-col space-y-5 overflow-hidden">
       <Buttons editor={editor} />
-      <EditorContent className="h-full w-full" editor={editor} />
+      <EditorContent
+        className="h-full w-full overflow-y-auto"
+        editor={editor}
+      />
     </div>
   );
 };

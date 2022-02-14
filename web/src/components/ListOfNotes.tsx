@@ -47,9 +47,9 @@ const NotePreview = ({
         </time>
       ) : null}
     </div>
-    <div className="mt-1">
+    {/* <div className="mt-1">
       <p className="line-clamp-2 text-sm text-gray-600">Preview?</p>
-    </div>
+    </div> */}
   </li>
 );
 

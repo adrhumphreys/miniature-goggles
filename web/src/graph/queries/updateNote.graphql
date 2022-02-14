@@ -1,0 +1,19 @@
+mutation updateNote(
+  $id: ID!
+  $notebookId: ID!
+  $title: String!
+  $content: String!
+) {
+  updateNote(
+    id: $id
+    notebookId: $notebookId
+    title: $title
+    content: $content
+  ) {
+    id
+    title
+    createdAt
+    updatedAt
+    content
+  }
+}

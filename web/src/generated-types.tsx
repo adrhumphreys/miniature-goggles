@@ -59,7 +59,7 @@ export type MutationRemoveNotebookArgs = {
 export type MutationUpdateNoteArgs = {
   content: Scalars['String'];
   id: Scalars['ID'];
-  notebookId: Scalars['String'];
+  notebookId: Scalars['ID'];
   title: Scalars['String'];
 };
 
@@ -75,11 +75,11 @@ export type Node = {
 
 export type Note = Node & {
   __typename?: 'Note';
-  content: Maybe<Scalars['String']>;
+  content: Scalars['String'];
   createdAt: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   notebook: Notebook;
-  title: Maybe<Scalars['String']>;
+  title: Scalars['String'];
   updatedAt: Maybe<Scalars['String']>;
 };
 
@@ -148,21 +148,21 @@ export type AddNoteMutationVariables = Exact<{
 }>;
 
 
-export type AddNoteMutation = { __typename?: 'Mutation', addNote: { __typename?: 'Note', id: string, title: string | null, createdAt: string | null, updatedAt: string | null, content: string | null } | null };
+export type AddNoteMutation = { __typename?: 'Mutation', addNote: { __typename?: 'Note', id: string, title: string, createdAt: string | null, updatedAt: string | null, content: string } | null };
 
 export type GetNoteQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type GetNoteQuery = { __typename?: 'Query', note: { __typename?: 'Note', id: string, title: string | null, content: string | null, createdAt: string | null, updatedAt: string | null, notebook: { __typename?: 'Notebook', id: string } } | null };
+export type GetNoteQuery = { __typename?: 'Query', note: { __typename?: 'Note', id: string, title: string, content: string, createdAt: string | null, updatedAt: string | null, notebook: { __typename?: 'Notebook', id: string } } | null };
 
 export type GetNotebookQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type GetNotebookQuery = { __typename?: 'Query', notebook: { __typename?: 'Notebook', id: string, title: string | null, createdAt: string | null, updatedAt: string | null, notes: Array<{ __typename?: 'Note', id: string, title: string | null, createdAt: string | null, updatedAt: string | null }> | null } | null };
+export type GetNotebookQuery = { __typename?: 'Query', notebook: { __typename?: 'Notebook', id: string, title: string | null, createdAt: string | null, updatedAt: string | null, notes: Array<{ __typename?: 'Note', id: string, title: string, createdAt: string | null, updatedAt: string | null }> | null } | null };
 
 export type GetNotebooksQueryVariables = Exact<{
   userId: Scalars['ID'];
@@ -170,6 +170,16 @@ export type GetNotebooksQueryVariables = Exact<{
 
 
 export type GetNotebooksQuery = { __typename?: 'Query', user: { __typename?: 'User', notebooks: Array<{ __typename?: 'Notebook', id: string, title: string | null, createdAt: string | null, updatedAt: string | null }> | null } | null };
+
+export type UpdateNoteMutationVariables = Exact<{
+  id: Scalars['ID'];
+  notebookId: Scalars['ID'];
+  title: Scalars['String'];
+  content: Scalars['String'];
+}>;
+
+
+export type UpdateNoteMutation = { __typename?: 'Mutation', updateNote: { __typename?: 'Note', id: string, title: string, createdAt: string | null, updatedAt: string | null, content: string } | null };
 
 export type AllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -245,6 +255,21 @@ export const GetNotebooksDocument = gql`
 
 export function useGetNotebooksQuery(options: Omit<Urql.UseQueryArgs<GetNotebooksQueryVariables>, 'query'>) {
   return Urql.useQuery<GetNotebooksQuery>({ query: GetNotebooksDocument, ...options });
+};
+export const UpdateNoteDocument = gql`
+    mutation updateNote($id: ID!, $notebookId: ID!, $title: String!, $content: String!) {
+  updateNote(id: $id, notebookId: $notebookId, title: $title, content: $content) {
+    id
+    title
+    createdAt
+    updatedAt
+    content
+  }
+}
+    `;
+
+export function useUpdateNoteMutation() {
+  return Urql.useMutation<UpdateNoteMutation, UpdateNoteMutationVariables>(UpdateNoteDocument);
 };
 export const AllUsersDocument = gql`
     query allUsers {

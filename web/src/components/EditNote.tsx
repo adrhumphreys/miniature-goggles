@@ -2,6 +2,7 @@ import { useGetNoteQuery, useUpdateNoteMutation } from "generated-types";
 import { FC, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Editor from "./Editor";
+import DeleteButton from "./Editor/DeleteButton";
 import Empty from "./Editor/Empty";
 
 type Props = {};
@@ -21,8 +22,8 @@ const parseJSON = (i: string | null | undefined) => {
 const EditNote: FC<Props> = ({}) => {
   const { notebookId, noteId } = useParams();
 
-  if (!noteId || !notebookId) {
-    throw Error("Missing notebook or note");
+  if (!notebookId) {
+    throw Error(`Missing notebook [${notebookId}]`);
   }
 
   const [{ data }] = useGetNoteQuery({ variables: { id: noteId ?? "" } });
@@ -66,12 +67,7 @@ const EditNote: FC<Props> = ({}) => {
           ref={titleRef}
         />
         <div className="mt-3 flex sm:mt-0 sm:ml-4">
-          <button
-            type="button"
-            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          >
-            Delete
-          </button>
+          <DeleteButton noteId={noteId} />
           <button
             onClick={saveNote}
             type="button"

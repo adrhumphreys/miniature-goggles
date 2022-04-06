@@ -10,6 +10,7 @@ type Props = {
 const Modal: FC<Props> = ({ children, isOpen, focusRef, onClose }) => (
   <Transition.Root show={isOpen} as={Fragment}>
     <Dialog
+      open={isOpen}
       as="div"
       className="fixed inset-0 z-10 overflow-y-auto"
       initialFocus={focusRef}
